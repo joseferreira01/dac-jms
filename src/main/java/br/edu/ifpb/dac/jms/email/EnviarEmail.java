@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifpb.dac.jms;
+package br.edu.ifpb.dac.jms.email;
 
+import java.io.Serializable;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,12 +18,12 @@ import javax.jms.Queue;
  *
  * @author jose
  */
-@JMSDestinationDefinition(name = "jms/exemplo",
+@JMSDestinationDefinition(name = "java:global/jms/exemplo",
         
         interfaceName = "javax.jms.Queue",resourceAdapter = "jmsra")
 @Stateless
-public class EnviarEmail {
-    @Resource(lookup = "jms/exemplo")
+public class EnviarEmail implements Serializable{
+    @Resource(lookup = "java:global/jms/exemplo")
     private Queue fila;
     @Inject
     private JMSContext context;

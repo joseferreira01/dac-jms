@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifpb.dac.jms;
+package br.edu.ifpb.dac.jms.topic;
 
+import br.edu.ifpb.dac.jms.email.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.inject.Inject;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jose
  */
-@WebServlet(name = "ServletEmailJMS", urlPatterns = {"/email"})
+@WebServlet(name = "ServletEmailJMS", urlPatterns = {"/mensagem"})
 public class ServletEmailJMS extends HttpServlet {
     @Inject
-    private EnviarEmail produtor;
+    private EnviarMensagem produtor;
     @Inject
 private RecebeEmail consumidor;
   
@@ -48,7 +49,7 @@ private RecebeEmail consumidor;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-      produtor.enviarEmail(email);
+        String email = request.getParameter("mensagem");
+      produtor.enviarMensagem(email);
     }
 }

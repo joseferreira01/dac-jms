@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifpb.dac.jms;
+package br.edu.ifpb.dac.jms.topic;
 
+import br.edu.ifpb.dac.jms.email.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ import javax.jms.Queue;
 
 @Stateless
 public class RecebeEmail {
-    @Resource(lookup = "jms/exemplo")
+    @Resource(lookup = "java:global/jms/exemplo")
     private Queue fila;
     @Inject
     private JMSContext context;
