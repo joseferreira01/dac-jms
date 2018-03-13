@@ -5,11 +5,15 @@
  */
 package br.edu.ifpb.dac.jms;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSDestinationDefinition;
+import javax.jms.JMSException;
 import javax.jms.JMSProducer;
 import javax.jms.Queue;
 
@@ -17,18 +21,21 @@ import javax.jms.Queue;
  *
  * @author jose
  */
-@JMSDestinationDefinition(name = "jms/exemplo",
-        
-        interfaceName = "javax.jms.Queue",resourceAdapter = "jmsra")
+
 @Stateless
-public class EnviarEmail {
+public class RecebeEmail {
     @Resource(lookup = "jms/exemplo")
     private Queue fila;
     @Inject
     private JMSContext context;
-    public void enviarEmail(String email){
-        JMSProducer producer = context.createProducer();
-        producer.send(fila, email);
-        System.out.println("email"+email);
+    public String lerEmail(){
+        try {
+            JMSConsumer consumer = context.createConsumer(fila);
+            String body = consumer.receive().getBody(String.class);
+            return body;
+        } catch (JMSException ex) {
+            Logger.getLogger(RecebeEmail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return "email não recebido";
     }
 }
